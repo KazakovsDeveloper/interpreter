@@ -1,0 +1,2 @@
+# interpreter
+Изучение паттерна Interpreter
