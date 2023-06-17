@@ -29,7 +29,7 @@ public class IoC {
         return actions.get(id);
     }
 
-    public static void resolve(String id, String action, GameSetting intrpretGameSetting) {
+    public static void resolve(String id, String action, GameSetting interpretGameSetting) {
         // по id вычислить игровой объект
         GameObject gameObjectById = getGameObjectById(id);
         // достать действие
@@ -37,6 +37,6 @@ public class IoC {
         // добавить действие в лист действий объекта
         List<Action> actions = gameObjectById.getActions();
         actions.add(actionById);
-        gameObjectById.setGameSetting(intrpretGameSetting);
+        gameObjectById.setGameSetting(interpretGameSetting);
     }
 }

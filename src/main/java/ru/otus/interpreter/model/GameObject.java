@@ -40,4 +40,10 @@ public class GameObject {
     public void setGameSetting(GameSetting gameSetting) {
         this.gameSetting = gameSetting;
     }
+
+    public GameObject(String id, List<Action> actions, GameSetting gameSetting) {
+        this.id = id;
+        this.actions = actions;
+        this.gameSetting = gameSetting;
+    }
 }
