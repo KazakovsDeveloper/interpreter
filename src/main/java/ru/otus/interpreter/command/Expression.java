@@ -1,9 +1,9 @@
 package ru.otus.interpreter.command;
 
-import ru.otus.interpreter.model.GameSetting;
+import ru.otus.interpreter.model.InterpretExpression;
 
 public interface Expression {
 
-    GameSetting intrpret(String orderParameters);
+    InterpretExpression interpret(String orderParameters);
 
 }

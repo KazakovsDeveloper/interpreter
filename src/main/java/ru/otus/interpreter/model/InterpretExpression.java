@@ -1,7 +1,9 @@
 package ru.otus.interpreter.model;
 
-public class SettingsTemplate {
+public class InterpretExpression {
 
+    private String id;
+    private String action;
     private String fuel;
     private String consumption;
     private String velocityX;
@@ -82,5 +84,38 @@ public class SettingsTemplate {
 
     public void setAngularVelocity(String angularVelocity) {
         this.angularVelocity = angularVelocity;
+    }
+
+    public InterpretExpression(String id, String action, String fuel, String consumption, String velocityX, String velocityY, String positionX, String positionY, String direction, String directionsNumber, String angularVelocity) {
+        this.id = id;
+        this.action = action;
+        this.fuel = fuel;
+        this.consumption = consumption;
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.direction = direction;
+        this.directionsNumber = directionsNumber;
+        this.angularVelocity = angularVelocity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public InterpretExpression() {
     }
 }
