@@ -8,11 +8,14 @@ import ru.otus.interpreter.action.Action;
 import ru.otus.interpreter.action.ShootAction;
 import ru.otus.interpreter.action.StartAction;
 import ru.otus.interpreter.action.StopAction;
+import ru.otus.interpreter.exception.DeprecateOrderException;
 import ru.otus.interpreter.model.GameObject;
+import ru.otus.interpreter.model.Gamer;
 import ru.otus.interpreter.model.InterpretExpression;
 import ru.otus.interpreter.model.Order;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,6 +30,7 @@ class OrderCommandTest {
     private Order order2;
     private Order order3;
     private Order emptyOrder;
+    private Order orderForForeignObject;
     private GameObject tank;
 
     @BeforeEach
@@ -63,18 +67,30 @@ class OrderCommandTest {
         when(expression.interpret(orders2)).thenReturn(interpretExpression2);
         when(expression.interpret(orders3)).thenReturn(interpretExpression3);
         when(expression.interpret(empty)).thenReturn(emptyInter);
+        Gamer gamer = new Gamer("890", List.of("1234", "5678"));
+        IoC.addOrderToIoC(order1, gamer);
+        IoC.addOrderToIoC(order2, gamer);
+        IoC.addOrderToIoC(order3, gamer);
+        IoC.addGamerToIoC("890", gamer);
+        String foreignOrder =
+                "id:1230;action:shoot";
+        orderForForeignObject = new Order(foreignOrder);
+        IoC.addOrderToIoC(orderForForeignObject, gamer);
+        InterpretExpression interpretExpressionForeign =
+                new InterpretExpression("1230", "shoot", null, null, null, null, null, null, null, null, null);
+        when(expression.interpret(foreignOrder)).thenReturn(interpretExpressionForeign);
     }
 
     @Test
     @DisplayName("сложить необходимое действие от входящего приказа в настройки")
-    public void orderCommandTestSuccessAddActionAndGameSetting() {
+    public void orderCommandTestSuccessAddActionAndGameSetting() throws DeprecateOrderException {
         orderCommand.execute(order1);
         assertEquals(1, tank.getSettingMap().size());
     }
 
     @Test
     @DisplayName("уметь обрабатывать приказы на старт/стоп/выстрел")
-    public void orderCommandTestSuccess() {
+    public void orderCommandTestSuccess() throws DeprecateOrderException {
         orderCommand.execute(order1);
         orderCommand.execute(order2);
         orderCommand.execute(order3);
@@ -85,6 +101,12 @@ class OrderCommandTest {
     @DisplayName("выбросить исключение, если id пустой")
     public void orderCommandTestThrowException() {
         assertThrows(RuntimeException.class, () -> orderCommand.execute(emptyOrder));
+    }
+
+    @Test
+    @DisplayName("выбросить исключение, если игровой объект не принадлежит игроку")
+    public void orderCommandTestThrowExceptionIfGameObjectDoesNotBelongToGamer() {
+        assertThrows(DeprecateOrderException.class, () -> orderCommand.execute(orderForForeignObject));
     }
 
 }

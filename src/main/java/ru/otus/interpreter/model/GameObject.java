@@ -27,6 +27,10 @@ public class GameObject {
         settingMap.put(id, Map.of(action, gameSetting));
     }
 
+    public void setSettingMap(Map<String, Map<Action, GameSetting>> settingMap) {
+        this.settingMap = settingMap;
+    }
+
     public GameObject(String id, Map<String, Map<Action, GameSetting>> settingMap) {
         this.id = id;
         this.settingMap = settingMap;

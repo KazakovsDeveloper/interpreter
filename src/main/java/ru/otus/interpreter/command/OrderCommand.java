@@ -1,11 +1,13 @@
 package ru.otus.interpreter.command;
 
 import ru.otus.interpreter.IoC.IoC;
+import ru.otus.interpreter.exception.DeprecateOrderException;
 import ru.otus.interpreter.mapper.Mapper;
 import ru.otus.interpreter.model.GameSetting;
 import ru.otus.interpreter.model.InterpretExpression;
 import ru.otus.interpreter.model.Order;
 
+import static ru.otus.interpreter.utils.Utils.checkGamerAndOrder;
 import static ru.otus.interpreter.utils.Utils.isNullOrBlank;
 
 /**
@@ -20,17 +22,22 @@ public class OrderCommand implements Command {
     }
 
     @Override
-    public void execute(Order order) {
+    public void execute(Order order) throws DeprecateOrderException {
         // необходимо интерпретировать параметры для дальнейшей работы в IoC
         String orderParameters = order.getOrderParameters();
         InterpretExpression interpret = expression.interpret(orderParameters);
-        String id = interpret.getId();
-        String action = interpret.getAction();
-        if (isNullOrBlank(id) || isNullOrBlank(action)) {
+
+        String gameObjectId = interpret.getId();
+        String actionId = interpret.getAction();
+        if (isNullOrBlank(gameObjectId) || isNullOrBlank(actionId)) {
             throw new RuntimeException("id или action для игрового объекта не переданы");
         }
+
+        // проверить приказ
+        checkGamerAndOrder(gameObjectId, order);
+        // смаппить интерпретированный приказ в настройки
         GameSetting gameSetting = Mapper.mapGameObject(interpret);
         // передаем в IoC параметры для совершения действия
-        IoC.resolve(id, action, gameSetting);
+        IoC.resolve(gameObjectId, actionId, gameSetting);
     }
 }
