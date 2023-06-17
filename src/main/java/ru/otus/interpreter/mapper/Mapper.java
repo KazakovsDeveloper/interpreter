@@ -6,7 +6,7 @@ import ru.otus.interpreter.model.InterpretExpression;
 import ru.otus.interpreter.model.Vector;
 
 import static java.util.Objects.isNull;
-import static ru.otus.interpreter.utils.Checker.isNullOrBlank;
+import static ru.otus.interpreter.utils.Utils.isNullOrBlank;
 
 public class Mapper {
 

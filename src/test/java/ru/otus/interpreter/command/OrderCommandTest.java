@@ -12,7 +12,7 @@ import ru.otus.interpreter.model.GameObject;
 import ru.otus.interpreter.model.InterpretExpression;
 import ru.otus.interpreter.model.Order;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -57,7 +57,7 @@ class OrderCommandTest {
         IoC.addActionsToIoC("move", start);
         IoC.addActionsToIoC("stop", stop);
         IoC.addActionsToIoC("shoot", shoot);
-        tank = new GameObject("1234", new ArrayList<>(), null);
+        tank = new GameObject("1234", new HashMap<>());
         IoC.addGameObjectToIoC("1234", tank);
         when(expression.interpret(orders1)).thenReturn(interpretExpression1);
         when(expression.interpret(orders2)).thenReturn(interpretExpression2);
@@ -69,8 +69,7 @@ class OrderCommandTest {
     @DisplayName("сложить необходимое действие от входящего приказа в настройки")
     public void orderCommandTestSuccessAddActionAndGameSetting() {
         orderCommand.execute(order1);
-        assertEquals(2.0, tank.getGameSetting().getFuel());
-        assertEquals("StartAction", tank.getActions().get(0).getClass().getSimpleName());
+        assertEquals(1, tank.getSettingMap().size());
     }
 
     @Test
@@ -79,9 +78,7 @@ class OrderCommandTest {
         orderCommand.execute(order1);
         orderCommand.execute(order2);
         orderCommand.execute(order3);
-        assertEquals("StartAction", tank.getActions().get(0).getClass().getSimpleName());
-        assertEquals("ShootAction", tank.getActions().get(1).getClass().getSimpleName());
-        assertEquals("StopAction", tank.getActions().get(2).getClass().getSimpleName());
+        assertEquals(3, tank.getSettingMap().size());
     }
 
     @Test

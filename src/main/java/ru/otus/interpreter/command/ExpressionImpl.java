@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ru.otus.interpreter.utils.Checker.isNullOrBlank;
+import static ru.otus.interpreter.utils.Utils.isNullOrBlank;
 
 public class ExpressionImpl implements Expression {
 

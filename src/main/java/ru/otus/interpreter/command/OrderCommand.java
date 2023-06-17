@@ -6,7 +6,7 @@ import ru.otus.interpreter.model.GameSetting;
 import ru.otus.interpreter.model.InterpretExpression;
 import ru.otus.interpreter.model.Order;
 
-import static ru.otus.interpreter.utils.Checker.isNullOrBlank;
+import static ru.otus.interpreter.utils.Utils.isNullOrBlank;
 
 /**
  * Команда, которая получает на вход приказ и с помощью IoC выполняет необходимое действие.

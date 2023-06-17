@@ -2,19 +2,17 @@ package ru.otus.interpreter.model;
 
 import ru.otus.interpreter.action.Action;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameObject {
 
     private String id;
 
-    private List<Action> actions;
-
-    private GameSetting gameSetting;
+    private Map<String, Map<Action, GameSetting>> settingMap;
 
     public GameObject() {
-        this.actions = new ArrayList<>();
+        this.settingMap = new HashMap<>();
     }
 
     public String getId() {
@@ -25,25 +23,16 @@ public class GameObject {
         this.id = id;
     }
 
-    public List<Action> getActions() {
-        return actions;
+    public void setToSettingMap(String id, Action action, GameSetting gameSetting) {
+        settingMap.put(id, Map.of(action, gameSetting));
     }
 
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
-
-    public GameSetting getGameSetting() {
-        return gameSetting;
-    }
-
-    public void setGameSetting(GameSetting gameSetting) {
-        this.gameSetting = gameSetting;
-    }
-
-    public GameObject(String id, List<Action> actions, GameSetting gameSetting) {
+    public GameObject(String id, Map<String, Map<Action, GameSetting>> settingMap) {
         this.id = id;
-        this.actions = actions;
-        this.gameSetting = gameSetting;
+        this.settingMap = settingMap;
+    }
+
+    public Map<String, Map<Action, GameSetting>> getSettingMap() {
+        return settingMap;
     }
 }

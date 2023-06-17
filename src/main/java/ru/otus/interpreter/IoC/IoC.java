@@ -3,9 +3,9 @@ package ru.otus.interpreter.IoC;
 import ru.otus.interpreter.action.Action;
 import ru.otus.interpreter.model.GameObject;
 import ru.otus.interpreter.model.GameSetting;
+import ru.otus.interpreter.utils.Utils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class IoC {
@@ -35,8 +35,7 @@ public class IoC {
         // достать действие
         Action actionById = getActionById(action);
         // добавить действие в лист действий объекта
-        List<Action> actions = gameObjectById.getActions();
-        actions.add(actionById);
-        gameObjectById.setGameSetting(interpretGameSetting);
+        String randomId = Utils.createRandomId();
+        gameObjectById.setToSettingMap(randomId, actionById, interpretGameSetting);
     }
 }
